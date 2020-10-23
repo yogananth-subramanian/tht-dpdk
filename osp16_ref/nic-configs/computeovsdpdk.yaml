@@ -201,26 +201,35 @@ resources:
                 addresses:
                 - ip_netmask:
                     get_param: StorageIpSubnet
-              - type: vlan
-                vlan_id:
-                  get_param: TenantNetworkVlanID
-                device: nic2
-                addresses:
-                - ip_netmask:
-                    get_param: TenantIpSubnet
               - type: ovs_user_bridge
                 name: br-link1
                 use_dhcp: false
+                ovs_extra:
+                  - str_replace:
+                      template: set port br-link1 tag=_VLAN_TAG_
+                      params:
+                        _VLAN_TAG_:
+                          get_param: TenantNetworkVlanID
+                addresses:
+                  - ip_netmask:
+                      get_param: TenantIpSubnet
                 members:
                 - type: ovs_dpdk_port
-                  name: dpdk-link1-port
+                  name: br-link1-dpdk-port0
+                  rx_queue: 1
                   members:
-                  - type: interface
-                    name: nic3
-              - type: sriov_pf
-                name: nic4
+                   - type: interface
+                     name: nic3
+              - type: ovs_user_bridge
+                name: br-link2
                 use_dhcp: false
-                numvfs: 5
+                members:
+                - type: ovs_dpdk_port
+                  name: br-link2-dpdk-port0
+                  rx_queue: 1
+                  members:
+                   - type: interface
+                     name: nic4
 
 outputs:
   OS::stack_id:
