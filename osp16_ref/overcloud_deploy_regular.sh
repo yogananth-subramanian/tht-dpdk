@@ -3,7 +3,7 @@
 PARAMS="$*"
 USER_THT="$HOME/osp16_ref"
 
-openstack overcloud roles generate -o $HOME/roles_data.yaml Controller ComputeOvsDpdkSriov
+openstack overcloud roles generate -o $HOME/roles_data.yaml Controller ComputeOvsDpdk ComputeSriov
 
 openstack overcloud deploy $PARAMS \
     --templates \
