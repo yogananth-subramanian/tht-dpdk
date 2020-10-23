@@ -24,7 +24,7 @@ parameter_defaults:
 
   ControllerCount: 1
   ComputeOvsDpdkSriovCount: 0
-  ComputeOvsDpdkSriovCount: 1
+  ComputeOvsDpdkCount: 1
   ComputeSriovCount: 1
   ComputeSriovOffloadCount: 0
 
